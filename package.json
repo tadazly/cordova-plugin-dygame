@@ -1,0 +1,31 @@
+{
+  "name": "cordova-plugin-dygame",
+  "version": "1.0.0",
+  "description": "抖音游戏数据深度合作 SDK 接入",
+  "cordova": {
+    "id": "cordova-plugin-dygame",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tadazly/cordova-plugin-dygame.git"
+  },
+  "keywords": [
+    "cordova",
+    "gdt",
+    "tencent-ads",
+    "sdk",
+    "ecosystem:cordova",
+    "cordova-android"
+  ],
+  "author": "tadazly",
+  "license": "Apache 2.0",
+  "bugs": {
+    "url": "https://github.com/tadazly/cordova-plugin-dygame/issues"
+  },
+  "homepage": "https://github.com/tadazly/cordova-plugin-dygame#readme",
+  "types": "./types/index.d.ts"
+}

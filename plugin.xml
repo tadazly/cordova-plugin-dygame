@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+    id="cordova-plugin-dygame" version="1.0.0">
+    <name>DouyinGameCordovaPlugin</name>
+    <description>Douyin Game Cordova Plugin</description>
+    <license>Apache 2.0</license>
+    <keywords>cordova,douyin,sdk</keywords>
+    <repo>https://github.com/tadazly/cordova-plugin-dygame.git</repo>
+
+    <preference name="APP_ID" />
+    <preference name="CLIENT_KEY" />
+    <preference name="SCREEN_ORIENTATION" default="sensorLandscape" />
+    <preference name="DEBUG_MODE" default="false" />
+
+    <hook type="after_plugin_install" src="scripts/generate-config.js" />
+    <hook type="before_plugin_uninstall" src="scripts/generate-config.js" />
+    <hook type="after_prepare" src="scripts/generate-config.js" />
+
+    <js-module src="www/DYGame.js" name="DYGame">
+        <clobbers target="DYGame" />
+        <clobbers target="cordova.plugins.DYGame" />
+    </js-module>
+
+    <!-- android -->
+    <platform name="android">
+        <config-file parent="/*" target="res/xml/config.xml">
+            <feature name="DYGame">
+                <param name="android-package" value="com.tadazly.dygame.DYGameCordovaPlugin" />
+            </feature>
+        </config-file>
+
+        <config-file target="AndroidManifest.xml" parent="/*">
+            <uses-permission android:name="android.permission.INTERNET" />
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+            <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+        </config-file>
+
+        <source-file src="src/android/DYGameCordovaPlugin.java" target-dir="src/com/tadazly/dygame" />
+        <framework src="src/android/dygame-build.gradle" custom="true" type="gradleReference" />
+    </platform>
+
+    <!-- ios -->
+    <platform name="ios">
+        <config-file target="config.xml" parent="/*">
+            <feature name="DYGame">
+                <param name="ios-package" value="DYGameCordovaPlugin"/>
+            </feature>
+        </config-file>
+
+        <config-file target="*-Info.plist" parent="CFBundleURLTypes">
+            <array>
+                <dict>
+                    <key>CFBundleTypeRole</key>
+                    <string>Editor</string>
+                    <key>CFBundleURLName</key>
+                    <string>datalink</string>
+                    <key>CFBundleURLSchemes</key>
+                    <array>
+                        <string>dygame$APP_ID</string>
+                    </array>
+                </dict>
+            </array>
+        </config-file>
+
+        <!-- Plugin source code -->
+        <header-file src="src/ios/DYGameCordovaPlugin.h" />
+        <source-file src="src/ios/DYGameCordovaPlugin.m" />
+
+        <podspec>
+            <config>
+                <source url="https://github.com/volcengine/volcengine-specs.git" />
+            </config>
+            <pods use-frameworks="true">
+                <pod name="UnionOpenPlatformSDK/Core" spec="2.5.0.0" />
+                <pod name="UnionOpenPlatformSDK/DataLink" spec="2.5.0.0" />
+                <!-- <pod name="UnionOpenPlatformSDK/Douyin" spec="2.5.0.0" />
+                <pod name="UnionOpenPlatformSDK/Share" spec="2.5.0.0" />
+                <pod name="UnionOpenPlatformSDK/Replay" spec="2.5.0.0" />
+                <pod name="UnionOpenPlatformSDK/Broadcast" spec="2.5.0.0" />
+                <pod name="UnionOpenPlatformSDK/Ticket" spec="2.5.0.0" /> -->
+            </pods>
+        </podspec>
+    </platform>
+</plugin>
