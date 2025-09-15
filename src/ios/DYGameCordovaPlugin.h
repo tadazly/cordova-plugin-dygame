@@ -2,8 +2,7 @@
 
 @interface DYGameCordovaPlugin : CDVPlugin
 
-- (void)setupOSDK:(CDVInvokedUrlCommand *_Nonnull)command;
-- (void)startOSDK:(CDVInvokedUrlCommand *_Nonnull)command;
+- (void)init:(CDVInvokedUrlCommand *_Nonnull)command;
 - (void)onGameActive:(CDVInvokedUrlCommand *_Nonnull)command;
 - (void)onAccountRegister:(CDVInvokedUrlCommand *_Nonnull)command;
 - (void)onRoleRegister:(CDVInvokedUrlCommand *_Nonnull)command;

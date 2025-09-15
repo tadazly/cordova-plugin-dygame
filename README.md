@@ -84,3 +84,35 @@ cordova plugin rm /path/to/cordova-plugin-dygame \
 - ios
 
     放到 `www/UOPSDKConfig.json` 和 `platforms/ios/www/UOPSDKConfig.json`
+
+## 安卓需要继承 Application（直接或间接继承 Application）
+
+- 游戏的 Application 直接继承 com.bytedance.ttgame.tob.common.host.api.GBApplication，如下：
+
+``` java
+import com.bytedance.ttgame.tob.common.host.api.GBApplication;
+
+public class XXApplication extends GBApplication {
+    //...
+}
+```
+
+- 如果不能继承 GBApplication，则需要在 Application 的 onCreate 函数中实现以下方法
+
+    - 如果直接继承 Application，则不需要再间接调用 Application，避免重复。
+
+    ```java
+    import android.app.Application;
+
+    public class XXApplication extends Application {
+
+        @Override
+        public void onCreate() {
+            super.onCreate();
+            // 请对齐游戏的application的onCreate时机，不要延后调用
+            // 确保GBCommonSDK.onCreate(...)调用在GBCommonSDK.init(...) 调用之前
+            GBCommonSDK.onCreate(this);
+        }
+        
+    }
+    ```

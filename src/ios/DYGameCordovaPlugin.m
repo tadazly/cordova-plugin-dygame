@@ -4,8 +4,8 @@
 
 @implementation DYGameCordovaPlugin
 
-// SDK配置接口，可在隐私协议前调用，不采集个人信息
-- (void)setupOSDK:(CDVInvokedUrlCommand *_Nonnull)command
+// Call after user agree privacy
+- (void)init:(CDVInvokedUrlCommand *_Nonnull)command
 {
     NSString *configFilePath = [[NSBundle mainBundle] pathForResource:@"UOPSDKConfig"
                                                                ofType:@"json"
@@ -18,13 +18,7 @@
     }
 
     [[UOPManager sharedManager] setupWithConfigFilePath:configFilePath];
-    CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-    [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
-}
-
-// 用户同意隐私协议后调用SDK启动接口
-- (void)startOSDK:(CDVInvokedUrlCommand *_Nonnull)command
-{
+    
     [[UOPManager sharedManager] startOSDKWithCompletion:^(NSError *err) {
         CDVPluginResult *result;
         if (err) {
@@ -124,7 +118,7 @@
     BOOL success = [[UOPDataLinkManager sharedInstance] onPay:userId 
                                                         gameRoleID:roleId 
                                                         gameOrderID:orderId 
-                                                        totalAmount:amount 
+                                                        totalAmount:amount
                                                         productID:productId 
                                                         productName:productName 
                                                         productDesc:productDesc];

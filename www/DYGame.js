@@ -15,12 +15,8 @@ module.exports = {
         });
     },
 
-    setupOSDK() {
-        return this.execAsync('setupOSDK');
-    },
-
-    startOSDK() {
-        return this.execAsync('startOSDK');
+    init() {
+        return this.execAsync('init');
     },
 
     onGameActive() {

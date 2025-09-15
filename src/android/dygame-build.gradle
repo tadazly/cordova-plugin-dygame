@@ -1,0 +1,18 @@
+repositories {
+    maven {
+        url 'https://artifact.bytedance.com/repository/ttgamesdk/'
+    }
+    maven {
+        url 'https://jitpack.io'
+    }
+}
+
+dependencies {
+    // 基础公共依赖
+    implementation "com.bytedance.ttgame:gbsdk_common_host:2.5.0.0-rc6"
+    implementation "com.bytedance.ttgame:gbsdk_common_plugin:2.5.0.0-rc6"
+    implementation "com.bytedance.ttgame:gbsdk_optional_applog:2.5.0.0-rc6"
+
+    // 全官服促活分账数据采集能力
+    implementation "com.bytedance.ttgame:gbsdk_optional_datalink_plugin:2.5.0.0-rc6"
+}

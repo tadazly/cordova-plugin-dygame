@@ -2,6 +2,13 @@
 const fs = require('fs');
 const path = require('path');
 
+/**
+ * 此脚本用于动态创建sdk所使用的配置json，删除插件时亦会自动删除
+ */
+
+/**
+ * 配置文件模板
+ */
 const configTemplate = {
     "app_id": "123456",
     "screen_orientation": "sensorLandscape",
@@ -12,6 +19,11 @@ const configTemplate = {
     "debug_mode": false
 }
 
+/**
+ * 从控制台命令读取传入的参数
+ * @param {string} cmdLine 
+ * @returns 
+ */
 function parseVarsFromCmdLine(cmdLine) {
     const out = {};
     if (!cmdLine || typeof cmdLine !== 'string') return out;
