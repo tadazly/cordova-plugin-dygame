@@ -1,13 +1,8 @@
 declare namespace DYGame {
     /**
-     * SDK配置接口，可在隐私协议前调用，不采集个人信息
-     */
-    function setupOSDK(): Promise<boolean>;
-    
-    /**
      * 用户同意隐私协议后调用SDK启动接口
      */
-    function startOSDK(): Promise<boolean>;
+    function init(): Promise<boolean>;
 
     /**
      * 游戏激活事件上报
