@@ -1,16 +1,20 @@
 package com.tadazly.dygame;
 
-import android.app.Application;
 import android.util.Log;
+
+import com.bytedance.ttgame.tob.common.host.api.GBCommonSDK;
+import com.bytedance.ttgame.tob.common.host.api.callback.InitCallback;
+import com.bytedance.ttgame.tob.common.host.api.config.InitConfig;
+import com.bytedance.ttgame.tob.optional.datalink.api.DataLinkReportService;
+import com.bytedance.ttgame.tob.optional.datalink.api.IDataLinkService;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaArgs;
 import org.apache.cordova.CordovaPlugin;
+import org.json.JSONException;
 
-public class GDTActionCordovaPlugin extends CordovaPlugin {
+public class DYGameCordovaPlugin extends CordovaPlugin {
     public final static String LOG_TAG = "plugin.DYGame";
-    private static String GDT_USER_ACTION_SET_ID;
-    private static String GDT_APP_SECRET_KEY;
 
     // 标记是否初始化过Sdk
     private static boolean hasInitSdk = false;
@@ -18,13 +22,11 @@ public class GDTActionCordovaPlugin extends CordovaPlugin {
     @Override
     protected void pluginInitialize() {
         super.pluginInitialize();
-        GDT_USER_ACTION_SET_ID = webView.getPreferences().getString("GDT_USER_ACTION_SET_ID", "");
-        GDT_APP_SECRET_KEY = webView.getPreferences().getString("GDT_APP_SECRET_KEY", "");
-        Log.d(LOG_TAG, "GDTAction pluginInitialize");
+        Log.d(LOG_TAG, "DYGame pluginInitialize");
     }
 
     @Override
-    public boolean execute(String action, CordovaArgs args, CallbackContext callbackContext) {
+    public boolean execute(String action, CordovaArgs args, CallbackContext callbackContext) throws JSONException {
         Log.d(LOG_TAG, "DYGame Action " + action);
         if (action.equals("init")) {
             return this.init(args, callbackContext);
@@ -64,12 +66,26 @@ public class GDTActionCordovaPlugin extends CordovaPlugin {
         }
 
         try {
-            Application app = cordova.getActivity().getApplication();
-            callbackContext.success();
+            InitConfig initConfig = new InitConfig.Builder()
+                    .packageChannel(InitConfig.PackageChannel.DOUYIN)
+                    .build();
+
+            GBCommonSDK.init(cordova.getActivity(), new InitCallback() {
+                @Override
+                public void onSuccess() {
+                    hasInitSdk = true;
+                    callbackContext.success();
+                }
+
+                @Override
+                public void onFailed(int code, String msg) {
+                    callbackContext.error("GBCommonSDK init Failed, code:" + code + ", msg:" + msg);
+                }
+            }, initConfig);
         } catch (Exception e) {
             Log.e(LOG_TAG, e.toString());
             Log.e(LOG_TAG, "DYGame init Error: Failed to init !");
-            callbackContext.error(e.toString());
+            callbackContext.error("DYGame init Error: Failed to Init, " + e.toString());
         }
         return true;
     }
@@ -84,7 +100,7 @@ public class GDTActionCordovaPlugin extends CordovaPlugin {
         return true;
     }
 
-    private boolean onAccountRegister(CordovaArgs args, CallbackContext callbackContext) {
+    private boolean onAccountRegister(CordovaArgs args, CallbackContext callbackContext) throws JSONException {
         String gameUserId = args.getString(0);
         boolean result = GBCommonSDK.getService(IDataLinkService.class)
             .onAccountRegister(gameUserId);
@@ -96,7 +112,7 @@ public class GDTActionCordovaPlugin extends CordovaPlugin {
         return true;
     }
 
-    private boolean onRoleRegister(CordovaArgs args, CallbackContext callbackContext) {
+    private boolean onRoleRegister(CordovaArgs args, CallbackContext callbackContext) throws JSONException {
         String gameUserId = args.getString(0);
         String gameRoleId = args.getString(1);
         boolean result = GBCommonSDK.getService(IDataLinkService.class)
@@ -109,7 +125,7 @@ public class GDTActionCordovaPlugin extends CordovaPlugin {
         return true;
     }
 
-    private boolean onAccountLogin(CordovaArgs args, CallbackContext callbackContext) {
+    private boolean onAccountLogin(CordovaArgs args, CallbackContext callbackContext) throws JSONException {
         String gameUserId = args.getString(0);
         long gameUserLastLoginTime = args.getLong(1);
         boolean result = GBCommonSDK.getService(IDataLinkService.class)
@@ -122,7 +138,7 @@ public class GDTActionCordovaPlugin extends CordovaPlugin {
         return true;
     }
 
-    private boolean onRoleLogin(CordovaArgs args, CallbackContext callbackContext) {
+    private boolean onRoleLogin(CordovaArgs args, CallbackContext callbackContext) throws JSONException {
         String gameUserId = args.getString(0);
         String gameRoleId = args.getString(1);
         long gameRoleLastLoginTime = args.getLong(2);
@@ -136,14 +152,14 @@ public class GDTActionCordovaPlugin extends CordovaPlugin {
         return true;
     }
 
-    private boolean onPay(CordovaArgs args, CallbackContext callbackContext) {
+    private boolean onPay(CordovaArgs args, CallbackContext callbackContext) throws JSONException {
         String gameUserId = args.getString(0);
         String gameRoleId = args.getString(1);
         String gameOrderId = args.getString(2);
         long totalAmount = args.getLong(3);
         String productId = args.getString(4);
         String productName = args.getString(5);
-        String productDesc = args.getString(5);
+        String productDesc = args.getString(6);
         
         boolean result = GBCommonSDK.getService(IDataLinkService.class).onPay(
             gameUserId, gameRoleId, gameOrderId, totalAmount,
