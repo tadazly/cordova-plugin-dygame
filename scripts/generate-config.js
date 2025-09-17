@@ -12,7 +12,7 @@ const path = require('path');
 const configTemplate = {
     "app_id": "123456",
     "screen_orientation": "sensorLandscape",
-    "osdk_type": "Omnichannel_DataLink",
+    "osdk_type": "Omnichannel_ActivityLink",
     "client_key": {
         "douyin_key": "abcdef"
     },

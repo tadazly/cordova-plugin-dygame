@@ -9,6 +9,7 @@
 
     <preference name="APP_ID" />
     <preference name="CLIENT_KEY" />
+    <preference name="OSDK_TYPE" default="Omnichannel_ActivityLink" />
     <preference name="SCREEN_ORIENTATION" default="sensorLandscape" />
     <preference name="DEBUG_MODE" default="false" />
 

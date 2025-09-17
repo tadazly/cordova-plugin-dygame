@@ -14,7 +14,7 @@
 -- | -- | --
 APP_ID | 是 | 抖音 App ID
 CLIENT_KEY | 是 | 抖音 Client Key
-OSDK_TYPE | 否 | `Omnichannel_DataLink` 为“回传游戏用户的活跃数据和付费数据”，`Omnichannel_ActivityLink` 为“回传游戏用户的活跃数据”，默认值为 `Omnichannel_DataLink`
+OSDK_TYPE | 否 | `Omnichannel_DataLink` 为“回传游戏用户的活跃数据和付费数据”，`Omnichannel_ActivityLink` 为“回传游戏用户的活跃数据”，默认值为 `Omnichannel_ActivityLink`
 SCREEN_ORIENTATION | 否 | 屏幕方向，`sensorPortrait` 为竖屏，`sensorLandscape` 为横屏，默认值为 `sensorLandscape`
 DEBUG_MODE | 否 | 是否开启调试模式，可选值为 `true` 或 `false`，默认值为 `false`
 
